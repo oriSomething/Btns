@@ -1,0 +1,15 @@
+// menu-buttons-states.scss
+
+
+
+// STATES
+.button-state-hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+.button-state-invisible {
+    opacity: 0;
+    visibility: hidden !important; // NOTE: if only bugs in Chrome Canary
+}

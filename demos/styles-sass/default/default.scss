@@ -1,0 +1,60 @@
+//  default.scss
+
+
+
+// VARS
+    $mq-small: 480px;
+
+
+
+// CLASSES
+::selection {
+    background  : silver;
+    color       : white;
+    text-shadow : none;
+}
+
+
+html {
+    font: 16px / 1.5 Helvetica, "Open Sans", Arial, sans-serif;
+    font: 100% / 1.5 Helvetica, "Open Sans", Arial, sans-serif;
+}
+
+
+
+body {
+    background-color: #eee;
+
+
+    @media screen and (min-width: $mq-small) and (min-height: $mq-small) {
+        background-color: #fff;
+    }
+}
+
+
+
+.main {
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    min-height: 320px; // iPhone height in landscape mode
+
+    margin: 0 auto;
+    position: absolute;
+
+    transition-property: opacity;
+    transition-duration: .5s;
+    transition-delay: .2s;
+
+
+    @media screen and (min-width: $mq-small) and (min-height: $mq-small) {
+        background-image: linear-gradient(#ddd, #fff);
+    }
+
+
+    .is-main-invisible & {
+        opacity: 0;
+    }
+}

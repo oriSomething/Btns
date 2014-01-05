@@ -1,0 +1,298 @@
+// menu-buttons-demo-1.scss
+
+
+
+// VARS
+$btn-size             : 50px;
+$btn-size-small       : 60px;
+$menu-radius          : 115px;
+$menu-radius-small    : 160px;
+
+$anim-speed           : .4s;
+$anim-btn-hover-speed : 166ms;
+$anim-btn-hover-delay : 48ms;
+
+$z-index-under: -10;
+$z-index-above: 10;
+
+
+
+// CLASSES
+
+// the container of the button
+.button {
+    left : 50%;
+    top  : 50%;
+
+    position: absolute;
+
+    background-color: transparent;
+
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: .8rem;
+    color: #555;
+
+
+    // Makes sure only the current open menu children will be visible
+    .button.is-submenu-open > .button-menu > .button-menu-item > &.is-close {
+        @extend .button-state-hidden;
+    }
+}
+
+
+
+    .button-container {
+        position: absolute;
+        transform: translate(-50%, -50%);
+        z-index: $z-index-above;
+
+
+        // Makes sure that the parent button of a menu will be invisble whem menu is open
+        .button.is-submenu-open > & {
+            @extend .button-state-invisible;
+            z-index: $z-index-under;
+        }
+    }
+
+
+
+        %button-button-transition {
+            transition-property: transform;
+            transition-duration: $anim-btn-hover-speed;
+            transition-delay: $anim-btn-hover-delay;
+        }
+
+
+
+        @mixin button-button-box-shadow( $color: #777 ) {
+            box-shadow: 0 1px 0 0 #{$color};
+        }
+
+
+        @mixin button-button-focus-box-shadow( $color ) {
+            &:focus {
+                box-shadow:
+                    0 0 0 1px rgba(255,255,255,.8),
+                    0 0 0 4px $color;
+            }
+        }
+
+
+        @mixin skin-button( $name, $img, $color: null ) {
+
+            &.skin-#{$name} {
+                @if $img != null { background-image: url(../images/#{$img}); }
+
+                @if $color != null {
+                    background-color: $color;
+                    @include button-button-box-shadow( darken($color, 20%) );
+                }
+
+                @include button-button-focus-box-shadow( $color );
+            }
+
+        }
+
+
+
+        // the button itself
+        .button-button {
+            @extend %button-button-transition;
+
+            width: $btn-size;
+            height: $btn-size;
+
+            display: block;
+            position: relative;
+            box-sizing: border-box;
+
+            background-color: silver;
+            background-image: none; // for <button>
+            background-position: center center;
+            background-size: $btn-size-small $btn-size-small;
+            background-repeat: no-repeat;
+
+            @include button-button-box-shadow();
+
+            border: none;
+            border-radius: 50%;
+
+
+            // vendor specific stuff
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            -ms-touch-action: none /*!important*/; // for making sure touch will be work immediately
+
+
+            @media screen and (min-width: $mq-small) and (min-height: $mq-small) {
+                width: $btn-size-small;
+                height: $btn-size-small;
+            }
+
+            // states
+
+            &:focus {
+                outline: none;
+            }
+            @include button-button-focus-box-shadow( #C0C0C0 );
+
+
+            .no-touch-fix &:hover {
+                transform: scale(2);
+            }
+
+
+
+
+            // - close button
+            // The close sign on the button
+            .button.is-open.is-has-menu > .button-container > &::after {
+                @extend %button-button-transition;
+
+                $icon-close-size: 60px;
+
+                // makes pesudo element visible
+                display: block;
+                position: absolute;
+                content: "";
+
+                // properties
+                left: 50%;
+                top: 50%;
+
+                width: $icon-close-size;
+                height: $icon-close-size;
+
+                transform: translate( -50%, -50% );
+
+                background-image: url(../images/icon-close.png);
+                background-size: $icon-close-size $icon-close-size;
+            }
+
+
+            .no-touch-fix .button.is-open.is-has-menu > .button-container > &:hover::after {
+                transform: translate( -50%, -50% ) scale(.5);
+            }
+
+
+
+            // skins
+            @include skin-button( "main_menu", "icon-menu.png", #492 );
+            @include skin-button( "menu", "icon-menu.png", #F62 );
+            @include skin-button( "hacker_news", "icon-hacker_news.png", #F62 );
+            @include skin-button( "www", "icon-www.png", #0097E0 );
+            @include skin-button( "blog", "icon-blog.png", #0097E0 );
+            @include skin-button( "twitter", "icon-twitter.png", #2AA9E0 );
+            @include skin-button( "html5rocks", "icon-html5rocks.png", #05A );
+            @include skin-button( "fontef", "icon-fontef.png", #111 );
+            @include skin-button( "processing", "icon-processing.png", #024 );
+
+            @include skin-button( "nyan_cat", "icon-nyan.png", #1D4374 );
+            @include skin-button( "disaster_artist", "icon-disaster_artist.png", #EB4638 );
+            @include skin-button( "streets_of_rage", "icon-streets_of_rage.png", #131131 );
+
+            @include skin-button( "alert", "icon-alert.png", #F62 );
+
+
+
+            // For menu buttons - makes sure no image when open
+            .button.is-open.is-has-menu > .button-container > & {
+                &.skin-main_menu,
+                &.skin-menu {
+                    background-image: none;
+                }
+            }
+        }
+
+
+
+
+        .button-title {
+            @extend %button-button-transition;
+
+            width: 150%;
+
+            margin: 0 -25%;
+            padding: .75em 0 0 0;
+
+            position: absolute;
+            display: block;
+
+            font-size: 100%;
+            line-height: 1;
+            text-align: center;
+
+
+            .no-touch-fix .button-button:hover + & {
+                transform: translateY( ($btn-size / 2) ) translateY(.75em);
+            }
+        }
+
+
+
+    .button-menu {
+        left: 0;
+        top: 0;
+        padding: 0;
+        margin: 0;
+
+        position: absolute;
+
+        list-style: none;
+
+
+        transition: $anim-speed;
+
+
+        // Makes sure `menu items` aren't visible when `button` is in close state
+        .button.is-close > & {
+            @extend .button-state-invisible;
+        }
+    }
+
+
+
+        .button-menu-item {
+            padding: 0;
+            margin: 0;
+
+            position: relative;
+
+            transition: $anim-speed;
+
+
+            // sub menu .Btns arrange in circle
+            $r: (360 / 8);
+            @for $i from 1 through 8 {
+                // makes sure there will be circular animation when `.button` is `.is-open`
+                .button.is-open > .button-menu > &:nth-child(#{$i}) {
+
+                    transform:
+                        rotate( #{($r * $i)}deg )
+                        translateX( -$menu-radius )
+                        rotate( #{($r * -$i)}deg );
+
+
+                    @media screen and (min-width: $mq-small) and (min-height: $mq-small) {
+                        transform:
+                            rotate( #{($r * $i)}deg )
+                            translateX( -$menu-radius-small )
+                            rotate( #{($r * -$i)}deg );
+                    }
+
+                }
+            }
+
+            // makes sure the menu always centerred
+            .button.is-submenu-open.is-open > .button-menu > & {
+                transform: rotate( 360deg ); // hack to make the circles move in a straight line
+            }
+
+
+            // correct `z-index` on `:hover`
+            .no-touch-fix &:hover {
+                z-index: $z-index-above;
+            }
+        }
