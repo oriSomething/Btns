@@ -11,4 +11,4 @@ and demos: [demo 1](http://uploads.orilivni.com/btns/demo-1.html), [demo 2](http
 
 ---
 
-I've been asked about the license. It's MIT, but credit would be nice
+I've been asked about the license. It's MIT (include the navicon and close icons. but the rest of the icons are not included in the license). Credit would be nice
